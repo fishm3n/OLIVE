@@ -11,12 +11,11 @@ class player():
         self.height = height
         self.color = color
         self.vel = 5
+        self.hitbox = (self.x,self.y,self.width,self.height)
     def draw(self,win) ->None:
         pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self.height))
-
-win = pygame.display.set_mode((500,500))
-olive = player(250,460,30,30,(0,255,0))
-clock = pygame.time.Clock()
+    def hit(self):
+        print("hit")
       
 class blocks():
     def __init__(self,x,y,width,height,color) -> None:
@@ -36,10 +35,12 @@ class blocks():
         else:
             self.y = -5 
     def hit(self):
-        if self.y == olive.y:
-            if self.x > olive.x - olive.width and self.x < olive.x + olive.width:
-                print('hit')
+        print('hit')
 
+#define object from classes and initial variables
+win = pygame.display.set_mode((500,500))
+olive = player(250,460,30,30,(0,255,0))
+clock = pygame.time.Clock()
 block_1 = blocks(random.randint(20,150),-60,random.randint(20,40),random.randint(20,40),(255,252,120))
 block_2 = blocks(random.randint(150,300),-60,random.randint(20,40),random.randint(20,40),(155,122,120))
 block_3 = blocks(random.randint(300,460),-60,random.randint(20,40),random.randint(20,40),(255,252,20))
