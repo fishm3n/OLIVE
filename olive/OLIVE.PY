@@ -52,7 +52,9 @@ clock = pygame.time.Clock()
 
 #define music and sound of game
 hit_sound = pygame.mixer.Sound("D:\Internet Explorer\pygame\OLIVE\olive\sounds\hit_sound.wav")
-#bg_music = pygame.mixer.music.load("./musics/")
+bg_music = pygame.mixer.Sound("D:/Internet Explorer/pygame/OLIVE/olive/musics/bg_music.mp3")
+#or use pygame.mixer.music.load then wright pygame.music.play(-1)
+bg_music.play(-1)
 
 #draw blocks , background and other stuf 
 def draw_bg():
@@ -89,6 +91,7 @@ def draw_bg():
 
 #main loop
 while True:
+    
     clock.tick(27)
     for event in pygame.event.get():
         if event.type == QUIT :
