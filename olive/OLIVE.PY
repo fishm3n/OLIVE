@@ -2,6 +2,7 @@ import pygame
 import random
 from pygame.constants import QUIT
 
+pygame.init()
 
 class player():
     hit_count = 0
@@ -19,6 +20,7 @@ class player():
     def hit(self):
         self.hit_count += 1
         print("hit",self.hit_count)
+        hit_sound.play()
 
 class blocks():
     def __init__(self,x,y,width,height,color) -> None:
@@ -39,6 +41,7 @@ class blocks():
 
 #define object from classes and initial variables
 win = pygame.display.set_mode((500,500))
+pygame.display.set_caption('OLIVE')
 olive = player(250,460,30,30,(0,255,0))
 block = blocks(random.randint(150,460),-60,random.randint(20,40),random.randint(20,40),(255,252,20))
 clock = pygame.time.Clock()
@@ -46,6 +49,10 @@ clock = pygame.time.Clock()
 #block_2 = blocks(random.randint(150,300),-60,random.randint(20,40),random.randint(20,40),(155,122,120))
 #block_3 = blocks(random.randint(300,460),-60,random.randint(20,40),random.randint(20,40),(255,252,20))
 #blocks = [block_1,block_2,block_3]
+
+#define music and sound of game
+hit_sound = pygame.mixer.Sound("D:\Internet Explorer\pygame\OLIVE\olive\sounds\hit_sound.wav")
+#bg_music = pygame.mixer.music.load("./musics/")
 
 #draw blocks , background and other stuf 
 def draw_bg():
