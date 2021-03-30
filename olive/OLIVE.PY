@@ -65,7 +65,7 @@ def draw_bg():
         block.x = random.randint(40,460)
     block.draw(win)
     if block.y - block.height == olive.y - olive.height or block.y + block.height == olive.y :
-       if block.x + block.width > olive.x - olive.width and block.x - block.width < olive.x:
+       if block.x + block.width > olive.x  and block.x - block.width < olive.x:
            olive.hit()
 #if we want use extra blocks we must do with this way
 #    for block in blocks:
