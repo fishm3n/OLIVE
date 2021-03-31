@@ -16,7 +16,8 @@ class player():
         #if we use charecter we must use hitbox 
         #self.hitbox = [self.x,self.y,self.width,self.height]
     def draw(self,win) ->None:
-        pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self.height))
+        win.blit(charecter,(self.x,self.y))
+        #pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self.height))
     def hit(self):
         self.hit_count += 1
         print("hit",self.hit_count)
@@ -50,6 +51,9 @@ clock = pygame.time.Clock()
 #block_3 = blocks(random.randint(300,460),-60,random.randint(20,40),random.randint(20,40),(255,252,20))
 #blocks = [block_1,block_2,block_3]
 
+#define images
+charecter = pygame.image.load('D:\Internet Explorer\pygame\OLIVE\olive\images\character.png')
+
 #define music and sound of game
 hit_sound = pygame.mixer.Sound("D:\Internet Explorer\pygame\OLIVE\olive\sounds\hit_sound.wav")
 bg_music = pygame.mixer.Sound("D:/Internet Explorer/pygame/OLIVE/olive/musics/bg_music.mp3")
@@ -60,13 +64,14 @@ bg_music.play(-1)
 def draw_bg():
     pygame.display.update()
     win.fill((0,0,255))
+    if block.y - block.height == olive.y - olive.height or block.y + block.height == olive.y :
+       if block.x + block.width > olive.x  and block.x - block.width < olive.x :
+           olive.hit()
     if block.y == 500:
         block.y = 0
         block.x = random.randint(40,460)
     block.draw(win)
-    if block.y - block.height == olive.y - olive.height or block.y + block.height == olive.y :
-       if block.x + block.width > olive.x  and block.x - block.width < olive.x:
-           olive.hit()
+    
 #if we want use extra blocks we must do with this way
 #    for block in blocks:
 #        olive.hitbox[0] = olive.x
