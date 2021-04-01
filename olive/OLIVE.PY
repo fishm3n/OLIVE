@@ -64,8 +64,8 @@ bg_music.play(-1)
 def draw_bg():
     pygame.display.update()
     win.fill((0,0,255))
-    if block.y - block.height == olive.y - olive.height or block.y + block.height == olive.y :
-       if block.x + block.width > olive.x  and block.x - block.width < olive.x :
+    if olive.y < block.y + block.height and olive.y > block.y - block.height:
+       if block.x + block.width > olive.x   and block.x - block.width < olive.x:
            olive.hit()
     if block.y == 500:
         block.y = 0
