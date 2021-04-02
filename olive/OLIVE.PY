@@ -1,6 +1,8 @@
 import pygame
 import random
+import time
 from pygame.constants import QUIT
+
 
 pygame.init()
 
@@ -19,9 +21,10 @@ class player():
         win.blit(charecter,(self.x,self.y))
         #pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self.height))
     def hit(self):
+        hit_sound.play()
         self.hit_count += 1
         print("hit",self.hit_count)
-        hit_sound.play()
+        
 
 class blocks():
     def __init__(self,x,y,width,height,color) -> None:
@@ -60,18 +63,31 @@ bg_music = pygame.mixer.Sound("D:/Internet Explorer/pygame/OLIVE/olive/musics/bg
 #or use pygame.mixer.music.load then wright pygame.music.play(-1)
 bg_music.play(-1)
 
+#define fonts
+all_fonts = pygame.font.get_fonts()
+font = pygame.font.Font("D:/Internet Explorer/pygame/OLIVE/olive/fonts/Vazir-Medium.ttf",72)
+text = font.render('YOU HIT!',True,(0,0,0))
+
 #draw blocks , background and other stuf 
 def draw_bg():
+    hit = False
     pygame.display.update()
     win.fill((0,0,255))
     if olive.y < block.y + block.height and olive.y > block.y - block.height:
-       if block.x + block.width > olive.x   and block.x - block.width < olive.x:
+        if block.x + block.width > olive.x   and block.x - block.width < olive.x:
            olive.hit()
+           block.y = -60
+           block.x = random.randint(150,460)
+           hit = True
+    else:
+        hit = False
+    if hit:
+        win.fill((255,255,255))
+        win.blit(text,(100, 150))      
     if block.y == 500:
         block.y = 0
         block.x = random.randint(40,460)
     block.draw(win)
-    
 #if we want use extra blocks we must do with this way
 #    for block in blocks:
 #        olive.hitbox[0] = olive.x
@@ -107,7 +123,6 @@ while True:
         olive.x += olive.vel
     if keys[pygame.K_LEFT] and olive.x - olive.vel > 0:
         olive.x -= olive.vel
-        
     draw_bg()
     olive.draw(win)
     
