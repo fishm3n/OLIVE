@@ -43,11 +43,28 @@ class blocks():
         else:
             self.y = -5 
 
+class Bg(object):
+    def __init__(self) -> None:
+        super().__init__()
+        self.y = -3500
+        self.x = 0
+        self.vel = 3
+    def move(self):
+        if self.y <= 0:
+            self.y += self.vel
+        else:
+            self.y = -3500
+    def draw(self,win):
+        self.move()
+        win.blit(bg,(self.x,self.y))
+
+
 #define object from classes and initial variables
-win = pygame.display.set_mode((500,500))
+win = pygame.display.set_mode((500,500))    
 pygame.display.set_caption('OLIVE')
 olive = player(250,460,30,30,(0,255,0))
-block = blocks(random.randint(150,460),-60,random.randint(20,40),random.randint(20,40),(255,252,20))
+block = blocks(random.randint(150,460),-60,random.randint(40,50),random.randint(40,60),(255,0,0))
+bg_ = Bg()
 clock = pygame.time.Clock()
 #block_1 = blocks(random.randint(20,150),-60,random.randint(20,40),random.randint(20,40),(255,252,120))
 #block_2 = blocks(random.randint(150,300),-60,random.randint(20,40),random.randint(20,40),(155,122,120))
@@ -56,10 +73,12 @@ clock = pygame.time.Clock()
 
 #define images
 charecter = pygame.image.load('D:\Internet Explorer\pygame\OLIVE\olive\images\character.png')
+bg = pygame.image.load('D:\Internet Explorer\pygame\OLIVE\olive\images/bg.png')
 
 #define music and sound of game
 hit_sound = pygame.mixer.Sound("D:\Internet Explorer\pygame\OLIVE\olive\sounds\hit_sound.wav")
 bg_music = pygame.mixer.Sound("D:/Internet Explorer/pygame/OLIVE/olive/musics/bg_music.mp3")
+#move_sound = pygame.mixer.Sound('D:\Internet Explorer\pygame\OLIVE\olive\sounds\move_sound.wav')
 #or use pygame.mixer.music.load then wright pygame.music.play(-1)
 bg_music.play(-1)
 
@@ -73,6 +92,7 @@ def draw_bg():
     hit = False
     pygame.display.update()
     win.fill((0,0,255))
+    bg_.draw(win)
     if olive.y < block.y + block.height and olive.y > block.y - block.height:
         if block.x + block.width > olive.x   and block.x - block.width < olive.x:
            olive.hit()
@@ -83,7 +103,7 @@ def draw_bg():
         hit = False
     if hit:
         win.fill((255,255,255))
-        win.blit(text,(100, 150))      
+        win.blit(text,(100, 150))
     if block.y == 500:
         block.y = 0
         block.x = random.randint(40,460)
