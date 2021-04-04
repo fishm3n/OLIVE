@@ -25,7 +25,6 @@ class player():
         self.hit_count += 1
         print("hit",self.hit_count)
         
-
 class blocks():
     def __init__(self,x,y,width,height,color) -> None:
         self.x = x
@@ -53,11 +52,21 @@ class Bg(object):
         if self.y <= 0:
             self.y += self.vel
         else:
-            self.y = -3500
+            self.y = -3400
     def draw(self,win):
         self.move()
         win.blit(bg,(self.x,self.y))
 
+class Score(object):
+    def __init__(self) -> None:
+        super().__init__()
+        self.score = 0
+    def point(self):
+        self.score += 1
+    def re_point(self):
+        return self.score
+
+    
 
 #define object from classes and initial variables
 win = pygame.display.set_mode((500,500))    
@@ -65,6 +74,7 @@ pygame.display.set_caption('OLIVE')
 olive = player(250,460,30,30,(0,255,0))
 block = blocks(random.randint(150,460),-60,random.randint(40,50),random.randint(40,60),(255,0,0))
 bg_ = Bg()
+score = Score()
 clock = pygame.time.Clock()
 #block_1 = blocks(random.randint(20,150),-60,random.randint(20,40),random.randint(20,40),(255,252,120))
 #block_2 = blocks(random.randint(150,300),-60,random.randint(20,40),random.randint(20,40),(155,122,120))
@@ -78,6 +88,7 @@ bg = pygame.image.load('D:\Internet Explorer\pygame\OLIVE\olive\images/bg.png')
 #define music and sound of game
 hit_sound = pygame.mixer.Sound("D:\Internet Explorer\pygame\OLIVE\olive\sounds\hit_sound.wav")
 bg_music = pygame.mixer.Sound("D:/Internet Explorer/pygame/OLIVE/olive/musics/bg_music.mp3")
+score_earn = pygame.mixer.Sound("D:\Internet Explorer\pygame\OLIVE\olive\sounds\score_earn.wav")
 #move_sound = pygame.mixer.Sound('D:\Internet Explorer\pygame\OLIVE\olive\sounds\move_sound.wav')
 #or use pygame.mixer.music.load then wright pygame.music.play(-1)
 bg_music.play(-1)
@@ -86,6 +97,8 @@ bg_music.play(-1)
 all_fonts = pygame.font.get_fonts()
 font = pygame.font.Font("D:/Internet Explorer/pygame/OLIVE/olive/fonts/Vazir-Medium.ttf",72)
 text = font.render('YOU HIT!',True,(0,0,0))
+score_font = pygame.font.Font("D:/Internet Explorer/pygame/OLIVE/olive/fonts/Vazir-Medium.ttf",30)
+
 
 #draw blocks , background and other stuf 
 def draw_bg():
@@ -93,6 +106,7 @@ def draw_bg():
     pygame.display.update()
     win.fill((0,0,255))
     bg_.draw(win)
+    
     if olive.y < block.y + block.height and olive.y > block.y - block.height:
         if block.x + block.width > olive.x   and block.x - block.width < olive.x:
            olive.hit()
@@ -102,12 +116,18 @@ def draw_bg():
     else:
         hit = False
     if hit:
+        score.score -= 5
         win.fill((255,255,255))
         win.blit(text,(100, 150))
     if block.y == 500:
         block.y = 0
         block.x = random.randint(40,460)
+        score.point()
+        score_earn.play()
+        #score_var = score.re_point()
+    score_text = score_font.render(str(score.re_point()),True,(0,0,0))
     block.draw(win)
+    win.blit(score_text,(10,0))
 #if we want use extra blocks we must do with this way
 #    for block in blocks:
 #        olive.hitbox[0] = olive.x
